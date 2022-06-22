@@ -1,5 +1,17 @@
-provider "aws" {
-  region = var.region
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.0"
+      region = var.region
+    }
+  }
+  backend "s3" {
+    bucket         = "tf-koneksa"
+    key            = "koneksa/terraform.tfstate"
+    region         = "us-east-1"
+    dynamodb_table = "tf_koneksa"
+  }
 }
 
 resource "aws_vpc" "vpc" {
